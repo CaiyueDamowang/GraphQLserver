@@ -1,17 +1,12 @@
-import {
-    UserInputError
-} from 'apollo-server'
+import { UserInputError } from 'apollo-server'
 
 // validate
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
-import {
-    validateRegisterInput
-} from '../../util/validators'
+import { validateRegisterInput } from '../../util/validators'
+import { generateToken } from '../../util/generateToken'
 // model
-import {
-    User
-} from '../../models/User'
+import { User } from '../../models/User'
 
 const key = process.env.SECRET_KEY || 'network'
 
@@ -59,13 +54,8 @@ export async function register(
     })
     const res = await newUser.save()
     // hash password and create an auth token
-    const token = jwt.sign({
-            id: res._id,
-            email: res.emit,
-            username: res.username
-        },
-        key,
-        { expiresIn: '1h' })
+    const token = generateToken(newUser)
+
     return {
         id: res._id,
         email: res.email,

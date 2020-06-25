@@ -1,7 +1,7 @@
 
 // util funtion
 const isValid = (err) => {
-    return Object.keys(err).length > 1
+    return Object.keys(err).length < 1
 }
 // register
 export const validateRegisterInput = (

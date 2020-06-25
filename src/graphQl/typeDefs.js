@@ -4,16 +4,11 @@ import gql  from 'graphql-tag'
 // Mutation -> POST
 
 export default gql`
-
     type Post {
         id: ID!
         body: String!
         createAt: String!
         username: String!
-    }
-
-    type Query {
-        getPosts: [Post]
     }
 
     type User {
@@ -30,8 +25,13 @@ export default gql`
         password: String!
         confirmPassword: String!
     }
-    
+
+    type Query {
+        getPosts: [Post]
+    }
+
     type Mutation {
         register(registerInput: RegisterInput): User!
+        login(username: String!, password: String!): User!
     }
 `
