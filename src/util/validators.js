@@ -1,3 +1,9 @@
+
+// util funtion
+const isValid = (err) => {
+    return Object.keys(err).length > 1
+}
+// register
 export const validateRegisterInput = (
     username,
     email,
@@ -22,6 +28,21 @@ export const validateRegisterInput = (
     }
     return {
         errorInfo,
-        valid: Object.keys(errorInfo).length < 1
+        valid: isValid(errorInfo)
+    }
+}
+
+// login
+export const validateLoginInput = (username, password) => {
+    const errorInfo = {}
+    if(username.trim() === '') {
+        errorInfo.username = 'Username must not be empty'
+    }
+    if(password.trim() === '') {
+        errorInfo.password = 'Password must not be empty'
+    }
+    return {
+        errorInfo,
+        valid: isValid(errorInfo)
     }
 }
