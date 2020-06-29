@@ -1,12 +1,17 @@
-import { getPosts } from './resolver/Post'
-import { register } from './resolver/Register'
+import { getPosts, getPost, createPost, deletePost } from './resolver/Post';
+import { register } from './resolver/Register';
 import { login } from "./resolver/Login";
+
 export default {
     Query: {
-       getPosts
+       getPosts,
+       getPost
     },
     Mutation: {
         register,
-        login
+        login,
+
+        createPost,
+        deletePost
     }
 }

@@ -9,7 +9,7 @@ export async function login(_, { username, password }) {
     if(!valid) {
         throw new UserInputError('Errors validate', { errorInfo })
     }
-    
+
     // db has the user
     const theUser = await User.findOne({
         username
@@ -18,9 +18,8 @@ export async function login(_, { username, password }) {
         errorInfo.general = 'User not found'
         throw new UserInputError('User not found', { errorInfo })
      }
-    
+
      // match user username and password
-    const encryptedPassword = await dcrypt.hash(password)
     const match = await bcrypt.compare(password, theUser.password)
     if(!match) {
         errorInfo.general = 'Wrong credentials'
@@ -28,10 +27,9 @@ export async function login(_, { username, password }) {
     }
 
     const token = generateToken(theUser)
-
     return {
+        username: theUser.username,
         id: theUser._id,
-        token,
-        username: theUser.username
+        token
     }
 }

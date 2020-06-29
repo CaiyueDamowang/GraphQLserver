@@ -5,12 +5,16 @@ import dotenv from 'dotenv'
 // models
 import typeDefs from './graphQl/typeDefs'
 import resolvers from './graphQl/resolvers'
+import { checkAuth } from './util/check-auth'
 
 const config = dotenv.config()
 
 const server = new ApolloServer({
     typeDefs,
-    resolvers
+    resolvers,
+    context: ({req}) => {
+        return { req }
+    }
 })
 
 mongoose
