@@ -17,6 +17,7 @@ export async function getPost(_, { postId }) {
     } catch(err) { throw new Error(err); }
 }
 
+// create
 export async function createPost(_, { body }, context) {
     const user = checkAuth(context)
     if(!user) throw new Error('has not login')
@@ -31,15 +32,18 @@ export async function createPost(_, { body }, context) {
     return newPost
 }
 
+// delete
 export async function deletePost(_, { postId }, context) {
-    const user = checkAuth(context)
+    const user = await checkAuth(context)
     if(!user) throw new Error('has not login')
     const post = Post.findOne({
         id: postId
     })
+    if(!post) return new Error('post not found')
+
     try{
         if(user.name === post.username) {
-            await post.delete()
+            await post.deleteOne()
             return "Post deleted successfully"
         } else {
             throw new AuthenticationError("Action not allowed")
